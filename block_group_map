@@ -1,0 +1,27 @@
+<!-- Import D3.js Library -->
+<script src="https://d3js.org/d3.v7.min.js"></script>
+
+<script>
+   //api endpoint for Census Block Group map
+    var url = "https://data.buffalony.gov/resource/ke5a-pfi5.geojson";
+
+d3.json(url).then(function(d) {
+  var lon = -78.87;
+  var lat = 42.88;
+  var width = window.innerWidth;
+  var height = window.innerHeight;
+  var projection = d3.geoMercator().center([lon,lat]).scale(300000).translate([width/10,height/2]);
+ 
+  var path = d3.geoPath().projection(projection);
+  var svg = d3.select("body").append('svg')
+      .style("width", 800)
+      .style("height", 1280);
+  svg.append('g').selectAll('path')
+  .data(d.features)
+  .enter()
+    .append('path')
+    .attr('d', path)
+    .attr('fill', 'blue')
+    .attr('stroke', 'white');
+});
+</script>
